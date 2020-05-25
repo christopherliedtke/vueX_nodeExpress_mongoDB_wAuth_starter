@@ -1,0 +1,31 @@
+{
+	"env": {
+		"browser": true,
+		"commonjs": true,
+		"es6": true,
+		"node": true
+	},
+	"extends": "eslint:recommended",
+	"parserOptions": {
+		"sourceType": "module",
+		"ecmaVersion": 9
+	},
+	"rules": {
+		"indent": ["error", 4, { "SwitchCase": 4 }],
+		"semi": ["error", "always"],
+		"no-console": 0,
+		"no-inner-declarations": 0,
+		"no-sparse-arrays": 0,
+		"no-unexpected-multiline": 0,
+		"no-unsafe-finally": 0
+	},
+	"globals": {
+		"$": false,
+		"jQuery": false,
+		"Handlebars": false,
+		"axios": false,
+		"Vue": false,
+		"expect": false,
+		"test": false
+	}
+}

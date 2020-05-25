@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+const cryptoRandomString = require('crypto-random-string');
+const { hash, compare } = require('../../utils/bcrypt');
+
 // #route:  POST /login
 // #desc:   Login a user
 // #access: Public
