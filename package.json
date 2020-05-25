@@ -1,0 +1,26 @@
+{
+    "name": "jobs_mfa-mal-anders",
+    "version": "1.0.0",
+    "description": "Full Stack Jobboard for MFA mal anders with Vue",
+    "main": "index.js",
+    "scripts": {
+        "start": "node server/index.js",
+        "dev": "nodemon server/index.js"
+    },
+    "author": "Christopher Liedtke",
+    "license": "ISC",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "compression": "^1.7.4",
+        "cookie-session": "^1.4.0",
+        "cors": "^2.8.5",
+        "crypto-random-string": "^3.2.0",
+        "csurf": "^1.11.0",
+        "express": "^4.17.1",
+        "mongoose": "^5.9.15",
+        "nodemailer": "^6.4.6"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.4"
+    }
+}
