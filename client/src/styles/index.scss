@@ -19,7 +19,7 @@ figcaption,
 figure,
 footer,
 header,
-main,
+// main,
 menu,
 nav,
 section,
@@ -195,7 +195,7 @@ textarea {
 html {
     font: 100%/1.45em georgia, serif;
     box-sizing: border-box;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 * {
     box-sizing: border-box;
@@ -626,5 +626,6 @@ pre tt:after {
 }
 
 @import "buttons";
+@import "inputs";
 @import "header";
 @import "footer";

@@ -1,0 +1,41 @@
+header {
+    background: linear-gradient(90deg, $primary, $secondary);
+    font-family: $font-headlines;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0px 15px;
+        height: 70px;
+
+        & > a {
+            height: 70px;
+        }
+
+        img {
+            height: 70px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+
+            a {
+                color: $light-shade;
+                margin: 0 1rem;
+                transition: linear 0.1s;
+
+                &.router-link-exact-active {
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+}

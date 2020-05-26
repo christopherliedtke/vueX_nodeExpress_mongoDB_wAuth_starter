@@ -5,6 +5,10 @@
     border: none;
     cursor: pointer;
     transition: linear 0.3s;
+
+    &:focus {
+        outline: none;
+    }
 }
 
 .btn-primary {
