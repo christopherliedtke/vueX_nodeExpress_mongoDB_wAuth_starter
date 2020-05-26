@@ -1,0 +1,27 @@
+%btn {
+    display: inline-block;
+    border-radius: 5px;
+    padding: 7px 18px;
+    border: none;
+    cursor: pointer;
+    transition: linear 0.3s;
+}
+
+.btn-primary {
+    @extend %btn;
+    @include set-background($secondary);
+
+    &:hover {
+        @include set-background($primary);
+    }
+}
+
+.btn-secondary {
+    @extend %btn;
+    @include set-background($light-accent);
+    border: 2px solid $primary;
+
+    &:hover {
+        @include set-background($primary);
+    }
+}

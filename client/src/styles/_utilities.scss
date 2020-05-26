@@ -1,0 +1,72 @@
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex-grow: 1;
+}
+
+.container {
+    max-width: 1140px;
+    padding: 1.3rem;
+    margin: 0 auto;
+}
+
+.box {
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(29, 18, 28, 0.37);
+}
+
+// Margin & padding classes
+$spaceamounts: (1, 2, 3, 4, 5);
+
+@each $space in $spaceamounts {
+    .m-#{$space} {
+        margin: #{$space/2}rem;
+    }
+    .my-#{$space} {
+        margin-top: #{$space/2}rem;
+        margin-bottom: #{$space/2}rem;
+    }
+    .mx-#{$space} {
+        margin-left: #{$space/2}rem;
+        margin-right: #{$space/2}rem;
+    }
+    .mt-#{$space} {
+        margin-top: #{$space/2}rem;
+    }
+    .mb-#{$space} {
+        margin-bottom: #{$space/2}rem;
+    }
+    .ml-#{$space} {
+        margin-left: #{$space/2}rem;
+    }
+    .mr-#{$space} {
+        margin-right: #{$space/2}rem;
+    }
+    .p-#{$space} {
+        padding: #{$space/2}rem;
+    }
+    .py-#{$space} {
+        padding-top: #{$space/2}rem;
+        padding-bottom: #{$space/2}rem;
+    }
+    .px-#{$space} {
+        padding-left: #{$space/2}rem;
+        padding-right: #{$space/2}rem;
+    }
+    .pt-#{$space} {
+        padding-top: #{$space/2}rem;
+    }
+    .pb-#{$space} {
+        padding-bottom: #{$space/2}rem;
+    }
+    .pl-#{$space} {
+        padding-left: #{$space/2}rem;
+    }
+    .pr-#{$space} {
+        padding-right: #{$space/2}rem;
+    }
+}

@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@300;500&family=Montserrat:wght@400;700&display=swap");
+
+$font-headlines: "Montserrat Alternates", sans-serif;
+$font-stack: "Montserrat", sans-serif;
+
+$primary: #6c012f;
+$secondary: #b94559;
+$tertiary: #928fa6;
+$light-shade: #f8faf9;
+$light-accent: #f3f7f4;
+$dark-shade: #1d121c;
+
+// Set text color based on bg
+@function set-text-color($color) {
+    @if (lightness($color) > 70) {
+        @return $dark-shade;
+    } @else {
+        @return $light-shade;
+    }
+}
+
+// Set background & text color
+@mixin set-background($color) {
+    background-color: $color;
+    color: set-text-color($color);
+}
