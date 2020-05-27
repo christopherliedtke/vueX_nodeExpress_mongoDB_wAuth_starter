@@ -23,7 +23,7 @@
 .btn-secondary {
     @extend %btn;
     @include set-background($light-accent);
-    border: 2px solid $primary;
+    // border: 2px solid $primary;
 
     &:hover {
         @include set-background($primary);

@@ -1,6 +1,6 @@
 <template>
     <div class="admin container">
-        Admin
+        <h2>Admin</h2>
     </div>
 </template>
 

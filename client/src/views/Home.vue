@@ -1,15 +1,27 @@
 <template>
     <div class="home container">
-        HOME
+        <h2>Home</h2>
+        <div>
+            <div v-for="job in jobs" :key="job.id">
+                <p>{{ job.title }}</p>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-// @ is an alias to /src
-// import Todos from "@/components/Todos.vue";
-
+import { mapActions, mapGetters } from "vuex";
 export default {
     name: "Home",
-    components: {}
+    methods: {
+        ...mapActions(["getJobs"])
+    },
+    data() {
+        return {};
+    },
+    mounted: function() {
+        this.getJobs();
+    },
+    computed: mapGetters(["jobs"])
 };
 </script>

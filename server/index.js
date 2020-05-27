@@ -1,9 +1,14 @@
 const express = require("express");
 const app = express();
+
 const cors = require("cors");
 const compression = require("compression");
+
 const csurf = require("csurf");
 const jwt = require("jsonwebtoken");
+const checkAuthToken = require("./utils/middleware/authToken");
+const requireLogin = require("./utils/middleware/requireLogin");
+const requireAdmin = require("./utils/middleware/requireAdmin");
 // const cookieSession = require("cookie-session");
 // const path = require("path");
 
@@ -25,19 +30,16 @@ if (process.env.NODE_ENV == "production") {
 require("./utils/db");
 
 // #Middleware
-const checkAuthToken = require("./utils/middleware/authToken");
-const requireLogin = require("./utils/middleware/requireLogin");
-const requireAdmin = require("./utils/middleware/requireAdmin");
 app.use(compression());
 app.use(cors());
 app.use(express.json());
+app.use(checkAuthToken);
 // app.use(
 //     cookieSession({
 //         secret: secrets.COOKIE_SESSION_SECRET,
 //         maxAge: 1000 * 60 * 60 * 24 * 14,
 //     })
 // );
-app.use(checkAuthToken);
 
 // #CSRF for Production
 if (process.env.NODE_ENV == "production") {
@@ -140,7 +142,7 @@ app.post("/apu/auth/register", async (req, res) => {
 // #route:  GET /api/jobs
 // #desc:   Get all jobs
 // #access: Public
-app.get("/api/jobs", requireLogin, requireAdmin, async (req, res) => {
+app.get("/api/jobs", async (req, res) => {
     res.json({
         jobs: [
             { id: 1, title: "Job 1" },
