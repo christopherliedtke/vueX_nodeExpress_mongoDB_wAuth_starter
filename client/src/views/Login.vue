@@ -2,7 +2,9 @@
     <div class="login container">
         <h2>Login</h2>
         <div>
+            <label>E-Mail Adresses</label>
             <input type="email" v-model="email" placeholder="E-Mail" />
+            <label>Passwort</label>
             <input type="password" v-model="password" placeholder="Passwort" />
             <button class="btn-primary" @click="onSubmit">Einloggen</button>
             <p class="error" v-if="error">

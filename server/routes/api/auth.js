@@ -23,15 +23,10 @@ router.post("/login", async (req, res) => {
 
                 if (pwCheckSuccess) {
                     req.session.userId = user[0]["_id"];
+
                     res.json({
                         success: true,
-                        user: {
-                            id: user._id,
-                            firstName: user.firstName,
-                            lastName: user.lastName,
-                            email: user.email,
-                            role: user.role,
-                        },
+                        userId: req.session.userId,
                     });
                 } else {
                     console.log("-----> Password does not match!");
@@ -66,19 +61,11 @@ router.post("/register", async (req, res) => {
 
         const user = await newUser.save();
 
-        console.log("user: ", user);
-
         req.session.userId = user["_id"];
 
         res.json({
             success: true,
-            user: {
-                id: user._id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                role: user.role,
-            },
+            userId: req.session.userId,
         });
     } catch (err) {
         console.log("Error on newUser.save(): ", err);

@@ -6,7 +6,8 @@
             /></router-link>
             <nav>
                 <router-link to="/">Stellenanzeigen</router-link>
-                <router-link to="/userboard">UserBoard</router-link>
+                <router-link to="/dashboard">Dashboard</router-link>
+                <router-link to="/admin">Admin</router-link>
                 <router-link to="/login">Login</router-link>
                 <router-link to="/register">Registrieren</router-link>
             </nav>
