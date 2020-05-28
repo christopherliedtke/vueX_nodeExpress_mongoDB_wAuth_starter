@@ -1,5 +1,6 @@
 <template>
-    <button class="btn-secondary" @click="onLogout">Logout</button>
+    <b-button size="sm" type="submit" @click="onLogout">Logout</b-button>
+    <!-- <button class="btn-secondary" @click="onLogout">Logout</button> -->
 </template>
 
 <script>

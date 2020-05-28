@@ -20,5 +20,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/styles/index.scss";
+// @import "@/styles/index.scss";
+@import "@/styles/custom.scss";
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
 </style>

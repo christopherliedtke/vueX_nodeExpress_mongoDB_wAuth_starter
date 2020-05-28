@@ -1,26 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@300;500&family=Montserrat:wght@400;700&display=swap");
 
-$font-headlines: "Montserrat Alternates", sans-serif;
-$font-stack: "Montserrat", sans-serif;
+$font-family-headlines: "Montserrat Alternates", sans-serif;
+$font-family-sans-serif: "Montserrat", sans-serif;
 
-$primary: #6c012f;
-$secondary: #b94559;
-$tertiary: #928fa6;
-$light-shade: #f8faf9;
-$light-accent: #f3f7f4;
-$dark-shade: #1d121c;
+$purple: #6c012f;
+$pink: #b94559;
+$lavendel: #928fa6;
+$dark: #1d121c;
+$light: #f8faf9;
 
-// Set text color based on bg
-@function set-text-color($color) {
-    @if (lightness($color) > 70) {
-        @return $dark-shade;
-    } @else {
-        @return $light-shade;
-    }
-}
+$primary: $purple;
+$secondary: $pink;
 
-// Set background & text color
-@mixin set-background($color) {
-    background-color: $color;
-    color: set-text-color($color);
-}
+$shadow1: 0px 0px 10px 0px rgba(29, 18, 28, 0.37);
+
+// $primary: #6c012f;
+// $secondary: #b94559;
+// $tertiary: #928fa6;
+// $light-shade: #f8faf9;
+// $light-accent: #f3f7f4;
+// $dark-shade: #1d121c;
