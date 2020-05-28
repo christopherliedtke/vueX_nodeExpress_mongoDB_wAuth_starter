@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import auth from "./modules/auth";
-import jobs from "./modules/jobs";
+import auth from "@/store/modules/auth";
+import jobs from "@/store/modules/jobs";
 
 Vue.use(Vuex);
 
