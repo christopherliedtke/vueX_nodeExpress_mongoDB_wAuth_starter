@@ -20,12 +20,15 @@ import { mapActions } from "vuex";
 export default {
     name: "Login",
     methods: {
-        ...mapActions(["userLogin"]),
+        ...mapActions(["userAuth"]),
         async onSubmit(e) {
             e.preventDefault();
-            const res = await this.userLogin({
-                email: this.email,
-                password: this.password
+            const res = await this.userAuth({
+                url: "/api/auth/login",
+                userData: {
+                    email: this.email,
+                    password: this.password
+                }
             });
             if (!res.success) {
                 this.error = true;

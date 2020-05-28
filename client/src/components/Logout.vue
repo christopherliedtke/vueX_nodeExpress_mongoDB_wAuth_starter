@@ -9,7 +9,6 @@ export default {
     methods: {
         onLogout() {
             localStorage.clear();
-            // ! clear vuex store
             router.go({ path: "/login" });
         }
     }

@@ -20,14 +20,17 @@ import { mapActions } from "vuex";
 export default {
     name: "Register",
     methods: {
-        ...mapActions(["userRegistration"]),
+        ...mapActions(["userAuth"]),
         async onSubmit(e) {
             e.preventDefault();
-            const res = await this.userRegistration({
-                firstName: this.firstName,
-                lastName: this.lastName,
-                email: this.email,
-                password: this.password
+            const res = await this.userAuth({
+                url: "/api/auth/register",
+                userData: {
+                    firstName: this.firstName,
+                    lastName: this.lastName,
+                    email: this.email,
+                    password: this.password
+                }
             });
             if (!res.success) {
                 this.error = true;
