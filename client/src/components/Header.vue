@@ -11,19 +11,18 @@
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav class="ml-auto">
                     <b-nav-item to="/">Home</b-nav-item>
+                    <b-nav-item to="/login">Login</b-nav-item>
+                    <b-nav-item to="/register">Register</b-nav-item>
+                    <b-nav-item to="/dashboard">Dashboard</b-nav-item>
+                    <Logout />
 
-                    <b-nav-item-dropdown right>
-                        <!-- Using 'button-content' slot -->
+                    <!-- <b-nav-item-dropdown right>
                         <template v-slot:button-content>
                             <em>Account</em>
                         </template>
-                        <b-dropdown-item to="/account-an"
-                            >AN Profil</b-dropdown-item
+                        <b-dropdown-item to="/dashboard"
+                            >Dashboard</b-dropdown-item
                         >
-                        <b-dropdown-item to="/account-ag"
-                            >AG Profil</b-dropdown-item
-                        >
-                        <b-dropdown-item to="/admin">Admin</b-dropdown-item>
                         <b-dropdown-item to="/login">Login</b-dropdown-item>
                         <b-dropdown-item to="/register"
                             >Registrieren</b-dropdown-item
@@ -31,7 +30,7 @@
                         <b-dropdown-item>
                             <Logout />
                         </b-dropdown-item>
-                    </b-nav-item-dropdown>
+                    </b-nav-item-dropdown> -->
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>

@@ -14,6 +14,9 @@ const getters = {
 
 const actions = {
     async userAuth({ commit }, data) {
+        console.log("data: ", data);
+        console.log("data.url: ", data.url);
+
         const response = await axios.post(data.url, data.userData);
 
         if (response.data.success) {
@@ -33,19 +36,19 @@ const actions = {
             // Manage redirect after auth
             const redirectQuery = router.history.current.query.redirect;
 
-            let redirectPath;
-            if (response.data.role === "employee") {
-                redirectPath = "/account-an";
-            } else if (response.data.role === "employee") {
-                redirectPath = "/account-ag";
-            } else if (response.data.role === "admin") {
-                redirectPath = "/admin";
-            }
+            let redirectPath = "/dashboard";
+            // if (response.data.role === "employee") {
+            //     redirectPath = "/account-an";
+            // } else if (response.data.role === "employee") {
+            //     redirectPath = "/account-ag";
+            // } else if (response.data.role === "admin") {
+            //     redirectPath = "/admin";
+            // }
 
             router.push({ path: redirectQuery || redirectPath });
             return { sucess: true };
         } else {
-            return { success: false };
+            return response.data;
         }
     }
 };

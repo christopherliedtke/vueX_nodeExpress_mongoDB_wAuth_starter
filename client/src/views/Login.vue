@@ -6,7 +6,7 @@
             <input type="email" v-model="email" placeholder="E-Mail" />
             <label>Passwort</label>
             <input type="password" v-model="password" placeholder="Passwort" />
-            <button class="btn-primary" @click="onSubmit">Einloggen</button>
+            <button class="btn btn-primary" @click="onSubmit">Einloggen</button>
             <p class="error" v-if="error">
                 Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es noch
                 einmal!

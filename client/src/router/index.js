@@ -1,13 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
-import store from "@/store";
+// import store from "@/store";
 import { TokenService } from "@/store/services/authToken";
 
 import Home from "@/views/Home.vue";
-import Employee from "@/views/Employee.vue";
-import Employer from "@/views/Employer.vue";
-import Admin from "@/views/Admin.vue";
+import Dashboard from "@/views/Dashboard.vue";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 
@@ -21,30 +19,11 @@ const routes = [
         }
     },
     {
-        path: "/account-an",
-        name: "Employee",
-        component: Employee,
+        path: "/dashboard",
+        name: "Dashboard",
+        component: Dashboard,
         meta: {
-            public: false,
-            onlyEmployee: true
-        }
-    },
-    {
-        path: "/account-ag",
-        name: "Employer",
-        component: Employer,
-        meta: {
-            public: false,
-            onlyEmployer: true
-        }
-    },
-    {
-        path: "/admin",
-        name: "Admin",
-        component: Admin,
-        meta: {
-            public: false,
-            onlyAdmin: true
+            public: false
         }
     },
     {
@@ -78,16 +57,10 @@ router.beforeEach((to, from, next) => {
     const onlyWhenLoggedOut = to.matched.some(
         record => record.meta.onlyWhenLoggedOut
     );
-    const onlyAdmin = to.matched.some(record => record.meta.onlyAdmin);
-    const onlyEmployee = to.matched.some(record => record.meta.onlyEmployee);
-    const onlyEmployer = to.matched.some(record => record.meta.onlyEmployer);
 
-    const userRole = store.getters.userRole;
+    // const userRole = store.getters.userRole;
 
     const loggedIn = !!TokenService.getToken();
-    const isAdmin = userRole === "admin";
-    const isEmployee = userRole === "employee";
-    const isEmployer = userRole === "employer";
 
     if (!isPublic && !loggedIn) {
         return next({
@@ -96,17 +69,9 @@ router.beforeEach((to, from, next) => {
         });
     }
 
-    if (onlyEmployee && !isEmployee && !isAdmin) {
-        return next("/");
-    }
-
-    if (onlyEmployer && !isEmployer && !isAdmin) {
-        return next("/");
-    }
-
-    if (onlyAdmin && !isAdmin) {
-        return next("/");
-    }
+    // if (onlyEmployee && !isEmployee && !isAdmin) {
+    //     return next("/");
+    // }
 
     if (loggedIn && onlyWhenLoggedOut) {
         return next("/");

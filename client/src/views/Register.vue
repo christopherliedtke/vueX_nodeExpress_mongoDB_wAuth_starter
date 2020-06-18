@@ -6,11 +6,17 @@
             <input type="text" v-model="lastName" placeholder="Nachname" />
             <input type="email" v-model="email" placeholder="E-Mail" />
             <input type="password" v-model="password" placeholder="Passwort" />
-            <button class="btn-primary" @click="onSubmit">Registrieren</button>
-            <p class="error" v-if="error">
-                Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es noch
-                einmal!
-            </p>
+            <input
+                type="password"
+                v-model="password2"
+                placeholder="Passwort Repeat"
+            />
+            <button class="btn btn-primary" @click="onSubmit">
+                Registrieren
+            </button>
+            <div class="error" v-if="errors">
+                <p v-for="error in errors" :key="error.msg">{{ error.msg }}</p>
+            </div>
         </div>
     </div>
 </template>
@@ -29,11 +35,15 @@ export default {
                     firstName: this.firstName,
                     lastName: this.lastName,
                     email: this.email,
-                    password: this.password
+                    password: this.password,
+                    password2: this.password2
                 }
             });
+
+            console.log("res: ", res);
+
             if (!res.success) {
-                this.error = true;
+                this.errors = res.errors;
             }
         }
     },
@@ -43,7 +53,8 @@ export default {
             lastName: "",
             email: "",
             password: "",
-            error: false
+            password2: "",
+            errors: []
         };
     }
 };
