@@ -2,15 +2,29 @@
     <div class="login container">
         <h2>Login</h2>
         <div>
-            <label>E-Mail Adresses</label>
-            <input type="email" v-model="email" placeholder="E-Mail" />
-            <label>Passwort</label>
-            <input type="password" v-model="password" placeholder="Passwort" />
+            <label>Email</label>
+            <b-form-input
+                type="email"
+                v-model="email"
+                placeholder="Email"
+            ></b-form-input>
+            <label>Password</label>
+            <b-form-input
+                type="password"
+                v-model="password"
+                placeholder="Password"
+            ></b-form-input>
             <button class="btn btn-primary" @click="onSubmit">Einloggen</button>
-            <p class="error" v-if="error">
-                Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es noch
-                einmal!
-            </p>
+            <div class="error" v-if="errors">
+                <b-alert
+                    show
+                    dismissible
+                    variant="warning"
+                    v-for="error in errors"
+                    :key="error.msg"
+                    >{{ error.msg }}</b-alert
+                >
+            </div>
         </div>
     </div>
 </template>
@@ -31,7 +45,7 @@ export default {
                 }
             });
             if (!res.success) {
-                this.error = true;
+                this.errors = res.errors;
             }
         }
     },
@@ -39,7 +53,7 @@ export default {
         return {
             email: "",
             password: "",
-            error: false
+            errors: []
         };
     }
 };

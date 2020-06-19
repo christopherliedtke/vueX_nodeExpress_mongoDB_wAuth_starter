@@ -1,12 +1,10 @@
 const express = require("express");
 const app = express();
 
-const session = require("express-session");
 const cors = require("cors");
 const compression = require("compression");
-const passport = require("passport");
 
-const csurf = require("csurf");
+// const csurf = require("csurf");
 // const cryptoRandomString = require("crypto-random-string");
 
 let secrets, port;
@@ -21,34 +19,24 @@ if (process.env.NODE_ENV == "production") {
 // #mongoDB
 require("./utils/db");
 
-// #Passport
-require("./utils/passport")(passport);
-
 // #Middleware
 app.use(compression());
 app.use(cors());
 app.use(express.json());
-app.use(
-    session({
-        secret: secrets.SESSION_SECRET,
-        resave: true,
-        saveUninitialized: true,
-    })
-);
-
-// #Passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
+app.use((req, res, next) => {
+    res.locals.secrets = secrets;
+    next();
+});
 
 // #CSRF for Production
-if (process.env.NODE_ENV == "production") {
-    app.use(csurf());
-    app.use((req, res, next) => {
-        res.set("x-frame-options", "DENY");
-        res.cookie("mytoken", req.csrfToken());
-        next();
-    });
-}
+// if (process.env.NODE_ENV == "production") {
+//     app.use(csurf());
+//     app.use((req, res, next) => {
+//         res.set("x-frame-options", "DENY");
+//         res.cookie("mytoken", req.csrfToken());
+//         next();
+//     });
+// }
 
 // #Routes
 app.use("/api/auth", require("./routes/auth"));

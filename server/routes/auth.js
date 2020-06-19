@@ -1,17 +1,54 @@
 const express = require("express");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 const { User } = require("../utils/models/user");
 const { hash, compare } = require("../utils/bcrypt");
-const passport = require("passport");
 
 // #route:  POST /Login
 // #desc:   Login a user
 // #access: Public
-router.post("/login", passport.authenticate("local"), (req, res) => {
-    console.log("req.body: ", req.body);
-    console.log("req.user: ", req.user);
+router.post("/login", async (req, res) => {
+    const { email, password } = req.body;
+    let errors = [];
 
-    res.json({ success: true });
+    if (!email || !password) {
+        errors.push({ msg: "Please fill in all fields!" });
+        res.json({ success: false, errors });
+    } else {
+        try {
+            const user = await User.findOne({ email: email });
+
+            if (!user) {
+                errors.push({ msg: "The provided email is not registered." });
+                res.json({ success: false, errors });
+            } else {
+                const pwCheckSuccess = await compare(password, user.password);
+
+                if (!pwCheckSuccess) {
+                    errors.push({ msg: "Email and password do not match." });
+                    res.json({ success: false, errors });
+                } else {
+                    const token = jwt.sign(
+                        { userId: user._id, role: user.role },
+                        res.locals.secrets.JWT_SECRET,
+                        {
+                            expiresIn: 60 * 60 * 24 * 14,
+                        }
+                    );
+
+                    res.json({
+                        success: true,
+                        userId: user._id,
+                        role: user.role,
+                        token,
+                    });
+                }
+            }
+        } catch (err) {
+            console.log("Error on /api/auth/login: ", err);
+            res.json({ success: false });
+        }
+    }
 });
 
 // #route:  POST /register
@@ -69,16 +106,23 @@ router.post("/register", async (req, res) => {
                 const user = await newUser.save();
                 console.log("user: ", user);
 
-                console.log("req.user before: ", req.user);
-                // passport.serializeUser((user, done) => {
-                //     done(null, user.id);
-                // });
-                console.log("req.user after: ", req.user);
+                const token = jwt.sign(
+                    { userId: user._id, role: user.role },
+                    secrets.JWT_SECRET,
+                    {
+                        expiresIn: 60 * 60 * 24 * 14,
+                    }
+                );
 
-                res.json({ success: true });
+                res.json({
+                    success: true,
+                    userId: user._id,
+                    role: user.role,
+                    token,
+                });
             }
         } catch (err) {
-            console.log("Error on /register: ", err);
+            console.log("Error on /api/auth/register: ", err);
             errors.push({
                 msg: "Oh, something went wrong. Please try again!",
             });

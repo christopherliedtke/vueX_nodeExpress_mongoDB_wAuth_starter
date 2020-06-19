@@ -36,20 +36,10 @@
             >
                 I accept the terms and use
             </b-form-checkbox>
-            <!-- <input type="text" v-model="firstName" placeholder="Vorname" /> -->
-            <!-- <input type="text" v-model="lastName" placeholder="Nachname" /> -->
-            <!-- <input type="email" v-model="email" placeholder="E-Mail" />
-            <input type="password" v-model="password" placeholder="Passwort" />
-            <input
-                type="password"
-                v-model="password2"
-                placeholder="Passwort Repeat"
-            /> -->
             <button class="btn btn-primary" @click="onSubmit">
                 Registrieren
             </button>
             <div class="error" v-if="errors">
-                <!-- <p v-for="error in errors" :key="error.msg">{{ error.msg }}</p> -->
                 <b-alert
                     show
                     dismissible
@@ -82,8 +72,6 @@ export default {
                     acceptance: this.acceptance
                 }
             });
-
-            console.log("res: ", res);
 
             if (!res.success) {
                 this.errors = res.errors;

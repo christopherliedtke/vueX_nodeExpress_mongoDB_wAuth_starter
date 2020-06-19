@@ -6,7 +6,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/api/user-data", (req, res) => {
-    console.log("req.user in /api/user-data: ", req.user);
+    // // console.log("req.user in /api/user-data: ", req.user);
 
     res.json({ userData: "test user data" });
 });
