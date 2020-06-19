@@ -1,10 +1,15 @@
 import axios from "@/axios";
 import router from "@/router/index";
+import jwt_decode from "jwt-decode";
 import { TokenService } from "@/store/services/authToken";
 
 const state = {
-    userId: localStorage.getItem("userId") || "",
-    userRole: localStorage.getItem("userRole") || ""
+    userId: TokenService.getToken()
+        ? jwt_decode(TokenService.getToken()).userId
+        : null,
+    userRole: TokenService.getToken()
+        ? jwt_decode(TokenService.getToken()).userRole
+        : null
 };
 
 const getters = {
@@ -14,19 +19,13 @@ const getters = {
 
 const actions = {
     async userAuth({ commit }, data) {
-        console.log("data: ", data);
-        console.log("data.url: ", data.url);
-
         const response = await axios.post(data.url, data.userData);
 
         if (response.data.success) {
-            commit("setUserId", response.data.userId);
-            commit("setUserRole", response.data.role);
-
-            // Set token and localStorage
+            // Set Token
             TokenService.saveToken(response.data.token);
-            localStorage.setItem("userId", response.data.userId);
-            localStorage.setItem("userRole", response.data.role);
+            commit("setUserId", jwt_decode(TokenService.getToken()).userId);
+            commit("setUserRole", jwt_decode(TokenService.getToken()).userRole);
 
             // Set axios Authorization header
             axios.defaults.headers[
@@ -35,17 +34,9 @@ const actions = {
 
             // Manage redirect after auth
             const redirectQuery = router.history.current.query.redirect;
-
             let redirectPath = "/dashboard";
-            // if (response.data.role === "employee") {
-            //     redirectPath = "/account-an";
-            // } else if (response.data.role === "employee") {
-            //     redirectPath = "/account-ag";
-            // } else if (response.data.role === "admin") {
-            //     redirectPath = "/admin";
-            // }
-
             router.push({ path: redirectQuery || redirectPath });
+
             return { sucess: true };
         } else {
             return response.data;

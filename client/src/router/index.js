@@ -69,10 +69,6 @@ router.beforeEach((to, from, next) => {
         });
     }
 
-    // if (onlyEmployee && !isEmployee && !isAdmin) {
-    //     return next("/");
-    // }
-
     if (loggedIn && onlyWhenLoggedOut) {
         return next("/");
     }

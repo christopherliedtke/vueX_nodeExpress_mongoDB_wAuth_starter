@@ -11,10 +11,14 @@
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav class="ml-auto">
                     <b-nav-item to="/">Home</b-nav-item>
-                    <b-nav-item to="/login">Login</b-nav-item>
-                    <b-nav-item to="/register">Register</b-nav-item>
-                    <b-nav-item to="/dashboard">Dashboard</b-nav-item>
-                    <Logout />
+                    <b-nav-item to="/login" v-if="!userId">Login</b-nav-item>
+                    <b-nav-item to="/register" v-if="!userId"
+                        >Register</b-nav-item
+                    >
+                    <b-nav-item to="/dashboard" v-if="userId"
+                        >Dashboard</b-nav-item
+                    >
+                    <Logout v-if="userId" />
 
                     <!-- <b-nav-item-dropdown right>
                         <template v-slot:button-content>
@@ -43,6 +47,11 @@ export default {
     name: "Header",
     components: {
         Logout
+    },
+    computed: {
+        userId() {
+            return this.$store.state.auth.userId;
+        }
     }
 };
 </script>

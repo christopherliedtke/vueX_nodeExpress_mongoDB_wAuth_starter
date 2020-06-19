@@ -1,6 +1,7 @@
 <template>
     <div class="dashboard container">
         <h2>Dashboard</h2>
+        <p v-for="data in testData" :key="data.id">{{ data.title }}</p>
     </div>
 </template>
 
@@ -9,9 +10,9 @@ import axios from "@/axios";
 export default {
     name: "Dashboard",
     methods: {
-        getUserData: async () => {
+        async getUserData() {
             const response = await axios.get("/api/user-data");
-            console.log("response: ", response);
+            this.testData = response.data;
         }
     },
     mounted: function() {
@@ -19,9 +20,7 @@ export default {
     },
     data() {
         return {
-            firstName: "",
-            lastName: "",
-            email: "",
+            testData: [],
             error: false
         };
     }

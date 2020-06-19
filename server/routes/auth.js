@@ -29,7 +29,12 @@ router.post("/login", async (req, res) => {
                     res.json({ success: false, errors });
                 } else {
                     const token = jwt.sign(
-                        { userId: user._id, role: user.role },
+                        {
+                            userId: user._id,
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                            userRole: user.role,
+                        },
                         res.locals.secrets.JWT_SECRET,
                         {
                             expiresIn: 60 * 60 * 24 * 14,
@@ -38,8 +43,6 @@ router.post("/login", async (req, res) => {
 
                     res.json({
                         success: true,
-                        userId: user._id,
-                        role: user.role,
                         token,
                     });
                 }
@@ -107,7 +110,12 @@ router.post("/register", async (req, res) => {
                 console.log("user: ", user);
 
                 const token = jwt.sign(
-                    { userId: user._id, role: user.role },
+                    {
+                        userId: user._id,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        userRole: user.role,
+                    },
                     secrets.JWT_SECRET,
                     {
                         expiresIn: 60 * 60 * 24 * 14,
@@ -116,8 +124,6 @@ router.post("/register", async (req, res) => {
 
                 res.json({
                     success: true,
-                    userId: user._id,
-                    role: user.role,
                     token,
                 });
             }
