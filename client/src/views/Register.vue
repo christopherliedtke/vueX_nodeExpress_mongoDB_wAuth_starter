@@ -2,20 +2,62 @@
     <div class="register container">
         <h2>Registrieren</h2>
         <div>
-            <input type="text" v-model="firstName" placeholder="Vorname" />
-            <input type="text" v-model="lastName" placeholder="Nachname" />
-            <input type="email" v-model="email" placeholder="E-Mail" />
+            <b-form-input
+                type="text"
+                v-model="firstName"
+                placeholder="First Name"
+            ></b-form-input>
+            <b-form-input
+                type="text"
+                v-model="lastName"
+                placeholder="Last Name"
+            ></b-form-input>
+            <b-form-input
+                type="email"
+                v-model="email"
+                placeholder="Email"
+            ></b-form-input>
+            <b-form-input
+                type="password"
+                v-model="password"
+                placeholder="Password"
+            ></b-form-input>
+            <b-form-input
+                type="password"
+                v-model="password2"
+                placeholder="Repeat Password"
+            ></b-form-input>
+            <b-form-checkbox
+                id="acceptance"
+                v-model="acceptance"
+                name="acceptance"
+                value="accepted"
+                unchecked-value="not_accepted"
+            >
+                I accept the terms and use
+            </b-form-checkbox>
+            <!-- <input type="text" v-model="firstName" placeholder="Vorname" /> -->
+            <!-- <input type="text" v-model="lastName" placeholder="Nachname" /> -->
+            <!-- <input type="email" v-model="email" placeholder="E-Mail" />
             <input type="password" v-model="password" placeholder="Passwort" />
             <input
                 type="password"
                 v-model="password2"
                 placeholder="Passwort Repeat"
-            />
+            /> -->
             <button class="btn btn-primary" @click="onSubmit">
                 Registrieren
             </button>
             <div class="error" v-if="errors">
-                <p v-for="error in errors" :key="error.msg">{{ error.msg }}</p>
+                <!-- <p v-for="error in errors" :key="error.msg">{{ error.msg }}</p> -->
+                <b-alert
+                    show
+                    dismissible
+                    variant="warning"
+                    v-for="error in errors"
+                    :key="error.msg"
+                    >{{ error.msg }}</b-alert
+                >
             </div>
         </div>
     </div>
@@ -36,7 +78,8 @@ export default {
                     lastName: this.lastName,
                     email: this.email,
                     password: this.password,
-                    password2: this.password2
+                    password2: this.password2,
+                    acceptance: this.acceptance
                 }
             });
 
@@ -54,6 +97,7 @@ export default {
             email: "",
             password: "",
             password2: "",
+            acceptance: "",
             errors: []
         };
     }
