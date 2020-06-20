@@ -31,8 +31,6 @@ router.post("/login", async (req, res) => {
                     const token = jwt.sign(
                         {
                             userId: user._id,
-                            firstName: user.firstName,
-                            lastName: user.lastName,
                             userRole: user.role,
                         },
                         res.locals.secrets.JWT_SECRET,
@@ -41,9 +39,13 @@ router.post("/login", async (req, res) => {
                         }
                     );
 
+                    req.session.token = token;
+                    req.session.userId = user._id;
+
                     res.json({
                         success: true,
-                        token,
+                        userRole: user.role,
+                        userId: user._id,
                     });
                 }
             }
@@ -112,8 +114,6 @@ router.post("/register", async (req, res) => {
                 const token = jwt.sign(
                     {
                         userId: user._id,
-                        firstName: user.firstName,
-                        lastName: user.lastName,
                         userRole: user.role,
                     },
                     secrets.JWT_SECRET,
@@ -122,9 +122,13 @@ router.post("/register", async (req, res) => {
                     }
                 );
 
+                req.session.token = token;
+                req.session.userId = user._id;
+
                 res.json({
                     success: true,
-                    token,
+                    userRole: user.role,
+                    userId: user._id,
                 });
             }
         } catch (err) {
@@ -135,6 +139,14 @@ router.post("/register", async (req, res) => {
             res.json({ success: false, errors });
         }
     }
+});
+
+// #route:  POST /logout
+// #desc:   Logout a user
+// #access: Public
+router.get("/logout", (req, res) => {
+    req.session = null;
+    res.json({ success: true });
 });
 
 module.exports = router;

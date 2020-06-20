@@ -28,6 +28,20 @@ app.use((req, res, next) => {
     next();
 });
 
+// Serve static ressources in production
+app.use(express.static(__dirname + "/public"));
+
+// #Cookie Session
+const cookieSession = require("cookie-session");
+app.use(
+    cookieSession({
+        secret: secrets.COOKIE_SESSION_SECRET,
+        maxAge: 1000 * 60 * 60 * 24 * 14,
+        httpOnly: true,
+        secure: false,
+    })
+);
+
 // #CSRF for Production
 // if (process.env.NODE_ENV == "production") {
 //     app.use(csurf());
@@ -41,5 +55,8 @@ app.use((req, res, next) => {
 // #Routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/", require("./routes/index"));
+
+// Serve the build in production
+app.get("*", (req, res) => res.sendFile(__dirname + "/public/index.html"));
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));

@@ -1,8 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
-// import store from "@/store";
-import { TokenService } from "@/store/services/authToken";
+import store from "@/store";
 
 import Home from "@/views/Home.vue";
 import Dashboard from "@/views/Dashboard.vue";
@@ -58,9 +57,7 @@ router.beforeEach((to, from, next) => {
         record => record.meta.onlyWhenLoggedOut
     );
 
-    // const userRole = store.getters.userRole;
-
-    const loggedIn = !!TokenService.getToken();
+    const loggedIn = !!store.getters.userRole;
 
     if (!isPublic && !loggedIn) {
         return next({

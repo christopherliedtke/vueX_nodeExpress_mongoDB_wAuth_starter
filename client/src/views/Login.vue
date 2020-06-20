@@ -2,16 +2,18 @@
     <div class="login container">
         <h2>Login</h2>
         <div>
-            <label>Email</label>
+            <label for="email">Email</label>
             <b-form-input
                 type="email"
                 v-model="email"
+                id="email"
                 placeholder="Email"
             ></b-form-input>
-            <label>Password</label>
+            <label for="password">Password</label>
             <b-form-input
                 type="password"
                 v-model="password"
+                id="password"
                 placeholder="Password"
             ></b-form-input>
             <button class="btn btn-primary" @click="onSubmit">Einloggen</button>
@@ -44,6 +46,7 @@ export default {
                     password: this.password
                 }
             });
+
             if (!res.success) {
                 this.errors = res.errors;
             }
