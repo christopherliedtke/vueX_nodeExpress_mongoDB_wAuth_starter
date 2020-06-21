@@ -27,27 +27,58 @@
                 autocomplete="email"
             ></b-form-input>
             <label for="password">Password</label>
-            <b-form-input
-                type="password"
-                v-model="password"
-                id="password"
-                placeholder="Enter Password"
-                autocomplete="new-password"
-                aria-describedby="password-help-block"
-            ></b-form-input>
+            <b-input-group>
+                <b-form-input
+                    :type="passwordType"
+                    v-model="password"
+                    id="password"
+                    placeholder="Enter Password"
+                    autocomplete="new-password"
+                    aria-describedby="password-help-block"
+                ></b-form-input>
+                <b-input-group-append>
+                    <b-button size="sm" text="Button" variant=""
+                        ><b-icon
+                            :icon="
+                                passwordType === 'text'
+                                    ? 'eye-fill'
+                                    : 'eye-slash-fill'
+                            "
+                            font-scale="1.4"
+                            @click="togglePasswordType"
+                        ></b-icon
+                    ></b-button>
+                </b-input-group-append>
+            </b-input-group>
             <b-form-text id="password-help-block">
                 Your password must be at least 6 characters and contain a
                 lowercase letter, an uppercase letter, a numeric digit and a
                 special character.
             </b-form-text>
+
             <label for="password2">Repeat Password</label>
-            <b-form-input
-                type="password"
-                v-model="password2"
-                id="password2"
-                placeholder="Repeat Password"
-                autocomplete="new-password"
-            ></b-form-input>
+            <b-input-group>
+                <b-form-input
+                    :type="passwordType"
+                    v-model="password2"
+                    id="password2"
+                    placeholder="Repeat Password"
+                    autocomplete="new-password"
+                ></b-form-input>
+                <b-input-group-append>
+                    <b-button size="sm" text="Button" variant=""
+                        ><b-icon
+                            :icon="
+                                passwordType === 'text'
+                                    ? 'eye-fill'
+                                    : 'eye-slash-fill'
+                            "
+                            font-scale="1.4"
+                            @click="togglePasswordType"
+                        ></b-icon
+                    ></b-button>
+                </b-input-group-append>
+            </b-input-group>
             <b-form-checkbox
                 id="acceptance"
                 v-model="acceptance"
@@ -98,6 +129,11 @@ export default {
             if (!res.success) {
                 this.errors = res.errors;
             }
+        },
+        togglePasswordType() {
+            this.passwordType === "text"
+                ? (this.passwordType = "password")
+                : (this.passwordType = "text");
         }
     },
     data() {
@@ -107,6 +143,7 @@ export default {
             email: "",
             password: "",
             password2: "",
+            passwordType: "password",
             acceptance: "",
             errors: []
         };

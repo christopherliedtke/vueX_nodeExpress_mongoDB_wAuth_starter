@@ -11,13 +11,29 @@
                 autocomplete="email"
             ></b-form-input>
             <label for="password">Password</label>
-            <b-form-input
-                type="password"
-                v-model="password"
-                id="password"
-                placeholder="Enter Password"
-                autocomplete="current-password"
-            ></b-form-input>
+            <b-input-group>
+                <b-form-input
+                    :type="passwordType"
+                    v-model="password"
+                    id="password"
+                    placeholder="Enter Password"
+                    autocomplete="current-password"
+                ></b-form-input>
+                <b-input-group-append>
+                    <b-button size="sm" text="Button" variant=""
+                        ><b-icon
+                            :icon="
+                                passwordType === 'text'
+                                    ? 'eye-fill'
+                                    : 'eye-slash-fill'
+                            "
+                            font-scale="1.4"
+                            @click="togglePasswordType"
+                        ></b-icon
+                    ></b-button>
+                </b-input-group-append>
+            </b-input-group>
+
             <button class="btn btn-primary mt-3" @click="onSubmit">
                 Einloggen
             </button>
@@ -54,12 +70,18 @@ export default {
             if (!res.success) {
                 this.errors = res.errors;
             }
+        },
+        togglePasswordType() {
+            this.passwordType === "text"
+                ? (this.passwordType = "password")
+                : (this.passwordType = "text");
         }
     },
     data() {
         return {
             email: "",
             password: "",
+            passwordType: "password",
             errors: []
         };
     }
