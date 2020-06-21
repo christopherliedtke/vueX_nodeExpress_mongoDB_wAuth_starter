@@ -7,28 +7,33 @@
                 type="text"
                 v-model="firstName"
                 id="firstName"
-                placeholder="First Name"
+                placeholder="Enter First Name"
+                autocomplete="given-name"
             ></b-form-input>
             <label for="lastName">Last Name</label>
             <b-form-input
                 type="text"
                 v-model="lastName"
                 id="lastName"
-                placeholder="Last Name"
+                placeholder="Enter Last Name"
+                autocomplete="family-name"
             ></b-form-input>
             <label for="email">Email</label>
             <b-form-input
                 type="email"
                 v-model="email"
                 id="email"
-                placeholder="Email"
+                placeholder="Enter Email"
+                autocomplete="email"
             ></b-form-input>
             <label for="password">Password</label>
             <b-form-input
                 type="password"
                 v-model="password"
                 id="password"
-                placeholder="Password"
+                placeholder="Enter Password"
+                autocomplete="new-password"
+                aria-describedby="password-help-block"
             ></b-form-input>
             <b-form-text id="password-help-block">
                 Your password must be at least 6 characters and contain a
@@ -41,6 +46,7 @@
                 v-model="password2"
                 id="password2"
                 placeholder="Repeat Password"
+                autocomplete="new-password"
             ></b-form-input>
             <b-form-checkbox
                 id="acceptance"
@@ -48,6 +54,7 @@
                 name="acceptance"
                 value="accepted"
                 unchecked-value="not_accepted"
+                switch
             >
                 I accept the terms of use
             </b-form-checkbox>

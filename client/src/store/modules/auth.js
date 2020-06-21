@@ -15,8 +15,6 @@ const actions = {
     async userAuth({ commit }, data) {
         const response = await axios.post(data.url, data.userData);
 
-        console.log("response: ", response);
-
         if (response.data.success) {
             localStorage.setItem("userId", response.data.userId);
             localStorage.setItem("userRole", response.data.userRole);

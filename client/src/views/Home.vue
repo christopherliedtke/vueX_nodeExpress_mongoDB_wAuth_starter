@@ -1,5 +1,5 @@
 <template>
-    <div class="home container">
+    <div class="home container py-5">
         <h2>Home</h2>
         <div>
             <div v-for="job in jobs" :key="job.id">

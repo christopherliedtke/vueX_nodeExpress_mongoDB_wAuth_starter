@@ -7,14 +7,16 @@
                 type="email"
                 v-model="email"
                 id="email"
-                placeholder="Email"
+                placeholder="Enter Email"
+                autocomplete="email"
             ></b-form-input>
             <label for="password">Password</label>
             <b-form-input
                 type="password"
                 v-model="password"
                 id="password"
-                placeholder="Password"
+                placeholder="Enter Password"
+                autocomplete="current-password"
             ></b-form-input>
             <button class="btn btn-primary mt-3" @click="onSubmit">
                 Einloggen

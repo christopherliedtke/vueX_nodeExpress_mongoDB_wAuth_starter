@@ -4,7 +4,7 @@ const app = express();
 const cors = require("cors");
 const compression = require("compression");
 
-// const csurf = require("csurf");
+const csurf = require("csurf");
 // const cryptoRandomString = require("crypto-random-string");
 
 let secrets, port;
@@ -42,18 +42,20 @@ app.use(
     })
 );
 
-// #CSRF for Production
-// if (process.env.NODE_ENV == "production") {
-//     app.use(csurf());
-//     app.use((req, res, next) => {
-//         res.set("x-frame-options", "DENY");
-//         res.cookie("mytoken", req.csrfToken());
-//         next();
-//     });
-// }
+// #CSRF security for Production
+if (process.env.NODE_ENV == "production") {
+    app.use(csurf());
+    app.use((req, res, next) => {
+        res.set("x-frame-options", "DENY");
+        res.cookie("mytoken", req.csrfToken());
+        next();
+    });
+}
 
 // #Routes
 app.use("/api/auth", require("./routes/auth"));
+app.use("/api/user", require("./routes/user"));
+app.use("/api/jobs", require("./routes/jobs"));
 app.use("/", require("./routes/index"));
 
 // Serve the build in production
