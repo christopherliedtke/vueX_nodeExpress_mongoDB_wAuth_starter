@@ -77,8 +77,15 @@ router.post("/register", async (req, res) => {
     if (password != password2) {
         errors.push({ msg: "The passwords you entered do not match!" });
     }
-    if (password.length < 6) {
-        errors.push({ msg: "Your password should be at least 6 characters." });
+    if (
+        !password.match(
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/
+        )
+    ) {
+        errors.push({
+            msg:
+                "Your password must be at least 6 characters and contain a lowercase letter, an uppercase letter, a numeric digit and a special character.",
+        });
     }
     if (acceptance != "accepted") {
         errors.push({ msg: "You need to accept the terms of use." });
@@ -116,7 +123,7 @@ router.post("/register", async (req, res) => {
                         userId: user._id,
                         userRole: user.role,
                     },
-                    secrets.JWT_SECRET,
+                    res.locals.secrets.JWT_SECRET,
                     {
                         expiresIn: 60 * 60 * 24 * 14,
                     }

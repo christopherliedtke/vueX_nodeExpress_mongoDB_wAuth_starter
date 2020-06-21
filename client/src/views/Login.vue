@@ -1,7 +1,7 @@
 <template>
-    <div class="login container">
+    <div class="login container py-5">
         <h2>Login</h2>
-        <div>
+        <b-form>
             <label for="email">Email</label>
             <b-form-input
                 type="email"
@@ -16,7 +16,9 @@
                 id="password"
                 placeholder="Password"
             ></b-form-input>
-            <button class="btn btn-primary" @click="onSubmit">Einloggen</button>
+            <button class="btn btn-primary mt-3" @click="onSubmit">
+                Einloggen
+            </button>
             <div class="error" v-if="errors">
                 <b-alert
                     show
@@ -27,7 +29,7 @@
                     >{{ error.msg }}</b-alert
                 >
             </div>
-        </div>
+        </b-form>
     </div>
 </template>
 
@@ -65,22 +67,11 @@ export default {
 <style scoped lang="scss">
 .login {
     &.container {
+        width: 90%;
+        max-width: 450px;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
         flex-grow: 1;
-
-        & > div {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-
-            button {
-                margin: 1rem;
-            }
-        }
     }
 }
 </style>

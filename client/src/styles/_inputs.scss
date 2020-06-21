@@ -2,7 +2,6 @@ input {
     border-radius: 5px;
     border: 1px solid #818a91;
     padding: 0.625em 0.4375em;
-    margin: 0.4rem;
 
     &:focus {
         outline: none;
@@ -11,5 +10,5 @@ input {
 }
 
 label {
-    margin-top: 1rem;
+    margin: 1rem 0 0.3rem 0.3rem;
 }

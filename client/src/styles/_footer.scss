@@ -1,10 +1,10 @@
 footer {
-    background: linear-gradient(90deg, $primary, $secondary);
+    background-color: $primary;
 
     .container {
         display: flex;
-        padding: 2.5rem 2.5rem;
-        color: $light-shade;
+        padding: 1rem 2.5rem;
+        color: $light;
         font-size: 0.9rem;
     }
 }

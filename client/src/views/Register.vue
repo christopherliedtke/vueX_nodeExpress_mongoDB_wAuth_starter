@@ -1,30 +1,45 @@
 <template>
-    <div class="register container">
+    <div class="register container py-5">
         <h2>Registrieren</h2>
-        <div>
+        <b-form>
+            <label for="firstName">First Name</label>
             <b-form-input
                 type="text"
                 v-model="firstName"
+                id="firstName"
                 placeholder="First Name"
             ></b-form-input>
+            <label for="lastName">Last Name</label>
             <b-form-input
                 type="text"
                 v-model="lastName"
+                id="lastName"
                 placeholder="Last Name"
             ></b-form-input>
+            <label for="email">Email</label>
             <b-form-input
                 type="email"
                 v-model="email"
+                id="email"
                 placeholder="Email"
             ></b-form-input>
+            <label for="password">Password</label>
             <b-form-input
                 type="password"
                 v-model="password"
+                id="password"
                 placeholder="Password"
             ></b-form-input>
+            <b-form-text id="password-help-block">
+                Your password must be at least 6 characters and contain a
+                lowercase letter, an uppercase letter, a numeric digit and a
+                special character.
+            </b-form-text>
+            <label for="password2">Repeat Password</label>
             <b-form-input
                 type="password"
                 v-model="password2"
+                id="password2"
                 placeholder="Repeat Password"
             ></b-form-input>
             <b-form-checkbox
@@ -34,12 +49,12 @@
                 value="accepted"
                 unchecked-value="not_accepted"
             >
-                I accept the terms and use
+                I accept the terms of use
             </b-form-checkbox>
-            <button class="btn btn-primary" @click="onSubmit">
+            <button class="btn btn-primary mt-3" @click="onSubmit">
                 Registrieren
             </button>
-            <div class="error" v-if="errors">
+            <div class="error mt-3" v-if="errors">
                 <b-alert
                     show
                     dismissible
@@ -49,7 +64,7 @@
                     >{{ error.msg }}</b-alert
                 >
             </div>
-        </div>
+        </b-form>
     </div>
 </template>
 
@@ -95,22 +110,11 @@ export default {
 <style scoped lang="scss">
 .register {
     &.container {
+        width: 90%;
+        max-width: 450px;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
         flex-grow: 1;
-
-        & > div {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-
-            button {
-                margin: 1rem;
-            }
-        }
     }
 }
 </style>

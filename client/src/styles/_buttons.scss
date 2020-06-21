@@ -13,19 +13,18 @@
 
 .btn-primary {
     @extend %btn;
-    @include set-background($secondary);
+    background-color: $primary;
 
     &:hover {
-        @include set-background($primary);
+        background-color: lighten($primary, 15%);
     }
 }
 
 .btn-secondary {
     @extend %btn;
-    @include set-background($light-accent);
-    // border: 2px solid $primary;
+    background-color: $secondary;
 
     &:hover {
-        @include set-background($primary);
+        background-color: lighten($primary, 15%);
     }
 }
