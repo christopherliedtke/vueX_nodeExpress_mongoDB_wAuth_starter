@@ -1,5 +1,5 @@
 <template>
-    <header>
+    <header class="py-2">
         <b-navbar toggleable="lg" type="dark">
             <b-navbar-brand to="/">
                 <!-- <img src="../assets/logo.png" height="70" alt="" /> -->
@@ -18,23 +18,8 @@
                     <b-nav-item to="/dashboard" v-if="userId"
                         >Dashboard</b-nav-item
                     >
+                    <!-- <b-nav-item v-if="userId"><Logout /></b-nav-item> -->
                     <Logout v-if="userId" />
-
-                    <!-- <b-nav-item-dropdown right>
-                        <template v-slot:button-content>
-                            <em>Account</em>
-                        </template>
-                        <b-dropdown-item to="/dashboard"
-                            >Dashboard</b-dropdown-item
-                        >
-                        <b-dropdown-item to="/login">Login</b-dropdown-item>
-                        <b-dropdown-item to="/register"
-                            >Registrieren</b-dropdown-item
-                        >
-                        <b-dropdown-item>
-                            <Logout />
-                        </b-dropdown-item>
-                    </b-nav-item-dropdown> -->
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
@@ -56,4 +41,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped lang="scss">
+.router-link-exact-active {
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+</style>

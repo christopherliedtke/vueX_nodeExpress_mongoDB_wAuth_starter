@@ -9,6 +9,7 @@
                 id="email"
                 placeholder="Enter Email"
                 autocomplete="email"
+                autofocus
             ></b-form-input>
             <label for="password">Password</label>
             <b-input-group>
@@ -19,25 +20,23 @@
                     placeholder="Enter Password"
                     autocomplete="current-password"
                 ></b-form-input>
-                <b-input-group-append>
-                    <b-button size="sm" text="Button" variant=""
-                        ><b-icon
-                            :icon="
-                                passwordType === 'text'
-                                    ? 'eye-fill'
-                                    : 'eye-slash-fill'
-                            "
-                            font-scale="1.4"
-                            @click="togglePasswordType"
-                        ></b-icon
-                    ></b-button>
+                <b-input-group-append is-text>
+                    <b-icon
+                        :icon="
+                            passwordType === 'text'
+                                ? 'eye-fill'
+                                : 'eye-slash-fill'
+                        "
+                        font-scale="1.2"
+                        @click="togglePasswordType"
+                    ></b-icon>
                 </b-input-group-append>
             </b-input-group>
 
             <button class="btn btn-primary mt-3" @click="onSubmit">
-                Einloggen
+                Login
             </button>
-            <div class="error" v-if="errors">
+            <div class="error mt-3" v-if="errors">
                 <b-alert
                     show
                     dismissible
@@ -96,6 +95,10 @@ export default {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
+
+        .b-icon {
+            cursor: pointer;
+        }
     }
 }
 </style>

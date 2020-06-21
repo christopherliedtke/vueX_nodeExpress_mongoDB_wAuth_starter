@@ -1,6 +1,6 @@
 <template>
     <div class="register container py-5">
-        <h2>Registrieren</h2>
+        <h2>Sign Up</h2>
         <b-form>
             <label for="firstName">First Name</label>
             <b-form-input
@@ -9,6 +9,7 @@
                 id="firstName"
                 placeholder="Enter First Name"
                 autocomplete="given-name"
+                autofocus
             ></b-form-input>
             <label for="lastName">Last Name</label>
             <b-form-input
@@ -36,24 +37,21 @@
                     autocomplete="new-password"
                     aria-describedby="password-help-block"
                 ></b-form-input>
-                <b-input-group-append>
-                    <b-button size="sm" text="Button" variant=""
-                        ><b-icon
-                            :icon="
-                                passwordType === 'text'
-                                    ? 'eye-fill'
-                                    : 'eye-slash-fill'
-                            "
-                            font-scale="1.4"
-                            @click="togglePasswordType"
-                        ></b-icon
-                    ></b-button>
+                <b-input-group-append is-text>
+                    <b-icon
+                        :icon="
+                            passwordType === 'text'
+                                ? 'eye-fill'
+                                : 'eye-slash-fill'
+                        "
+                        font-scale="1.2"
+                        @click="togglePasswordType"
+                    ></b-icon>
                 </b-input-group-append>
             </b-input-group>
             <b-form-text id="password-help-block">
-                Your password must be at least 6 characters and contain a
-                lowercase letter, an uppercase letter, a numeric digit and a
-                special character.
+                Your password must be 6+ characters long, contain letters,
+                numbers and special characters.
             </b-form-text>
 
             <label for="password2">Repeat Password</label>
@@ -65,18 +63,16 @@
                     placeholder="Repeat Password"
                     autocomplete="new-password"
                 ></b-form-input>
-                <b-input-group-append>
-                    <b-button size="sm" text="Button" variant=""
-                        ><b-icon
-                            :icon="
-                                passwordType === 'text'
-                                    ? 'eye-fill'
-                                    : 'eye-slash-fill'
-                            "
-                            font-scale="1.4"
-                            @click="togglePasswordType"
-                        ></b-icon
-                    ></b-button>
+                <b-input-group-append is-text>
+                    <b-icon
+                        :icon="
+                            passwordType === 'text'
+                                ? 'eye-fill'
+                                : 'eye-slash-fill'
+                        "
+                        font-scale="1.2"
+                        @click="togglePasswordType"
+                    ></b-icon>
                 </b-input-group-append>
             </b-input-group>
             <b-form-checkbox
@@ -90,7 +86,7 @@
                 I accept the terms of use
             </b-form-checkbox>
             <button class="btn btn-primary mt-3" @click="onSubmit">
-                Registrieren
+                Register
             </button>
             <div class="error mt-3" v-if="errors">
                 <b-alert
@@ -159,6 +155,10 @@ export default {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
+
+        .b-icon {
+            cursor: pointer;
+        }
     }
 }
 </style>

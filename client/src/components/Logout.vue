@@ -1,6 +1,13 @@
 <template>
-    <b-button size="sm" type="submit" @click="onLogout">Logout</b-button>
-    <!-- <button class="btn-secondary" @click="onLogout">Logout</button> -->
+    <b-button
+        class="px-2"
+        size="sm"
+        variant="secondary"
+        type="submit"
+        @click="onLogout"
+        ><b-icon icon="door-closed" font-scale="1.2" @click="onLogout"></b-icon
+    ></b-button>
+    <!-- <b-icon icon="door-closed" font-scale="1.2" @click="onLogout"></b-icon> -->
 </template>
 
 <script>
