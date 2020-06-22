@@ -85,9 +85,10 @@
             >
                 I accept the terms of use
             </b-form-checkbox>
-            <button class="btn btn-primary mt-3" @click="onSubmit">
+            <button class="btn btn-primary my-3" @click="onSubmit">
                 Register
             </button>
+            <p>Already registered? <b-link to="/login">Login</b-link> now.</p>
             <div class="error mt-3" v-if="errors">
                 <b-alert
                     show

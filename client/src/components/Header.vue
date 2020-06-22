@@ -18,6 +18,7 @@
                     <b-nav-item to="/dashboard" v-if="userId"
                         >Dashboard</b-nav-item
                     >
+                    <b-nav-item to="/account" v-if="userId">Account</b-nav-item>
                     <!-- <b-nav-item v-if="userId"><Logout /></b-nav-item> -->
                     <Logout v-if="userId" />
                 </b-navbar-nav>

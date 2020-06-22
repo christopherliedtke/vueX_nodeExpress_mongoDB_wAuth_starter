@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -21,11 +21,11 @@ const UserSchema = new Schema({
     },
     role: {
         type: String,
-        required: true,
+        default: "basic",
     },
-    active: {
-        type: Boolean,
-        default: false,
+    status: {
+        type: String,
+        default: "pending",
     },
     accepted: {
         type: Boolean,
@@ -37,4 +37,4 @@ const UserSchema = new Schema({
     },
 });
 
-module.exports.User = mongoose.model('user', UserSchema);
+module.exports.User = mongoose.model("user", UserSchema);

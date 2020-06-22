@@ -5,6 +5,7 @@ import store from "@/store";
 
 import Home from "@/views/Home.vue";
 import Dashboard from "@/views/Dashboard.vue";
+import Account from "@/views/Account.vue";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 
@@ -21,6 +22,14 @@ const routes = [
         path: "/dashboard",
         name: "Dashboard",
         component: Dashboard,
+        meta: {
+            public: false
+        }
+    },
+    {
+        path: "/account",
+        name: "Account",
+        component: Account,
         meta: {
             public: false
         }

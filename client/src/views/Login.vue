@@ -33,9 +33,12 @@
                 </b-input-group-append>
             </b-input-group>
 
-            <button class="btn btn-primary mt-3" @click="onSubmit">
+            <button class="btn btn-primary my-3" @click="onSubmit">
                 Login
             </button>
+            <p>
+                Not registered yet? <b-link to="/register">Sign up</b-link> now.
+            </p>
             <div class="error mt-3" v-if="errors">
                 <b-alert
                     show

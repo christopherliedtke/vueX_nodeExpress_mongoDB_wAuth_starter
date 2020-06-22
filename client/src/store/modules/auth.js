@@ -3,12 +3,14 @@ import router from "@/router/index";
 
 const state = {
     userId: localStorage.getItem("userId") || null,
-    userRole: localStorage.getItem("userRole") || null
+    userRole: localStorage.getItem("userRole") || null,
+    userStatus: localStorage.getItem("userStatus") || null
 };
 
 const getters = {
     userId: state => state.userId,
-    userRole: state => state.userRole
+    userRole: state => state.userRole,
+    userStatus: state => state.userStatus
 };
 
 const actions = {
@@ -20,10 +22,12 @@ const actions = {
             localStorage.setItem("userRole", response.data.userRole);
             commit("setUserId", response.data.userId);
             commit("setUserRole", response.data.userRole);
+            commit("setUserStatus", response.data.userStatus);
 
             // Manage redirect after auth
             const redirectQuery = router.history.current.query.redirect;
-            let redirectPath = "/dashboard";
+            let redirectPath =
+                data.url === "/api/auth/register" ? "/account" : "/dashboard";
 
             router.push({ path: redirectQuery || redirectPath });
 
@@ -40,6 +44,9 @@ const mutations = {
     },
     setUserRole: (state, userRole) => {
         state.userRole = userRole;
+    },
+    setUserStatus: (state, userStatus) => {
+        state.userStatus = userStatus;
     }
 };
 

@@ -46,6 +46,7 @@ router.post("/login", async (req, res) => {
                         success: true,
                         userRole: user.role,
                         userId: user._id,
+                        userStatus: user.status,
                     });
                 }
             }
@@ -79,12 +80,12 @@ router.post("/register", async (req, res) => {
     }
     if (
         !password.match(
-            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,}$/
         )
     ) {
         errors.push({
             msg:
-                "Your password must be at least 6 characters and contain a lowercase letter, an uppercase letter, a numeric digit and a special character.",
+                "Your password must be at least 6 characters long and contain a lowercase letter, an uppercase letter, a numeric digit and a special character.",
         });
     }
     if (acceptance != "accepted") {
@@ -111,13 +112,10 @@ router.post("/register", async (req, res) => {
                     lastName,
                     email,
                     password: hashedPw,
-                    role: "basic",
                     accepted: true,
                 });
 
                 const user = await newUser.save();
-                console.log("user: ", user);
-
                 const token = jwt.sign(
                     {
                         userId: user._id,
@@ -136,6 +134,7 @@ router.post("/register", async (req, res) => {
                     success: true,
                     userRole: user.role,
                     userId: user._id,
+                    userStatus: user.status,
                 });
             }
         } catch (err) {
