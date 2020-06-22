@@ -1,8 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
+const cryptoRandomString = require("crypto-random-string");
 const { User } = require("../utils/models/user");
+const { Code } = require("../utils/models/pwReset");
 const { hash, compare } = require("../utils/bcrypt");
+const emailService = require("../utils/nodemailer");
 
 // #route:  POST /Login
 // #desc:   Login a user
@@ -76,7 +79,7 @@ router.post("/register", async (req, res) => {
         errors.push({ msg: "Please fill in all fields!" });
     }
     if (password != password2) {
-        errors.push({ msg: "The passwords you entered do not match!" });
+        errors.push({ msg: "The entered passwords do not match!" });
     }
     if (
         !password.match(
@@ -139,6 +142,107 @@ router.post("/register", async (req, res) => {
             }
         } catch (err) {
             console.log("Error on /api/auth/register: ", err);
+            errors.push({
+                msg: "Oh, something went wrong. Please try again!",
+            });
+            res.json({ success: false, errors });
+        }
+    }
+});
+
+// #route:  POST /password-reset/get-code
+// #desc:   Reset password of user
+// #access: Public
+router.post("/password-reset/get-code", async (req, res) => {
+    const { email } = req.body;
+    let errors = [];
+
+    if (!email) {
+        errors.push({ msg: "Please provide your registered email address!" });
+        res.json({ success: false, errors });
+    } else {
+        try {
+            const user = await User.findOne({ email: email });
+
+            if (!user) {
+                errors.push({
+                    msg: "The provided email address is not registered!",
+                });
+                res.json({ success: false, errors });
+            } else {
+                const secretCode = cryptoRandomString({
+                    length: 6,
+                });
+                const newCode = new Code({
+                    code: secretCode,
+                    email: email,
+                });
+                await newCode.save();
+
+                const data = {
+                    from: `YOUR NAME <${res.locals.secrets.EMAIL_USERNAME}>`,
+                    to: email,
+                    subject: "Your Password Reset Code for YOUR APP",
+                    text: `Please use the following code within the next 10 minutes to reset your password on YOUR APP: ${secretCode}`,
+                    html: `<p>Please use the following code within the next 10 minutes to reset your password on YOUR APP: <strong>${secretCode}</strong></p>`,
+                };
+                await emailService.sendMail(data);
+
+                res.json({ success: true });
+            }
+        } catch (err) {
+            console.log("Error on /api/auth/password-reset/get-code: ", err);
+            errors.push({
+                msg: "Oh, something went wrong. Please try again!",
+            });
+            res.json({ success: false, errors });
+        }
+    }
+});
+
+// #route:  POST /password-reset/verify
+// #desc:   Verify and save new password of user
+// #access: Public
+router.post("/password-reset/verify", async (req, res) => {
+    const { email, password, password2, code } = req.body;
+    let errors = [];
+
+    if (!email || !password || !password2 || !code) {
+        errors.push({ msg: "Please fill in all fields!" });
+    }
+    if (password != password2) {
+        errors.push({ msg: "The entered passwords do not match!" });
+    }
+    if (
+        !password.match(
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,}$/
+        )
+    ) {
+        errors.push({
+            msg:
+                "Your password must be at least 6 characters long and contain a lowercase letter, an uppercase letter, a numeric digit and a special character.",
+        });
+    }
+    if (errors.length > 0) {
+        res.json({ success: false, errors });
+    } else {
+        try {
+            const response = await Code.findOne({ email, code });
+
+            if (response.length === 0) {
+                errors.push({
+                    msg:
+                        "The entered code is not correct. Please make sure to enter the code in the requested time interval.",
+                });
+                res.json({ success: false, errors });
+            } else {
+                const newHashedPw = await hash(password);
+                await User.updateOne({ email }, { password: newHashedPw });
+                await Code.deleteOne({ email, code });
+                res.json({ success: true });
+            }
+        } catch (err) {
+            console.log("Error on /api/auth/password-reset/verify: ", err);
             errors.push({
                 msg: "Oh, something went wrong. Please try again!",
             });

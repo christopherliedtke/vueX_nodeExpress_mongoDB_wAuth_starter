@@ -8,6 +8,7 @@ import Dashboard from "@/views/Dashboard.vue";
 import Account from "@/views/Account.vue";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
+import PasswordReset from "@/views/PasswordReset.vue";
 
 const routes = [
     {
@@ -47,6 +48,15 @@ const routes = [
         path: "/register",
         name: "Register",
         component: Register,
+        meta: {
+            public: true,
+            onlyWhenLoggedOut: true
+        }
+    },
+    {
+        path: "/password-reset",
+        name: "PasswordReset",
+        component: PasswordReset,
         meta: {
             public: true,
             onlyWhenLoggedOut: true

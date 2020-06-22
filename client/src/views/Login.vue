@@ -39,6 +39,9 @@
             <p>
                 Not registered yet? <b-link to="/register">Sign up</b-link> now.
             </p>
+            <p>
+                <b-link to="/password-reset">Forgot Password?</b-link>
+            </p>
             <div class="error mt-3" v-if="errors">
                 <b-alert
                     show
