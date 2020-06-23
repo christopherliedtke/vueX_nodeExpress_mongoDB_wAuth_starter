@@ -10,6 +10,7 @@ import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 import PasswordReset from "@/views/PasswordReset.vue";
 import AccountVerification from "@/views/AccountVerification.vue";
+import AccountVerificationSuccessfull from "@/views/AccountVerificationSuccessfull.vue";
 
 const routes = [
     {
@@ -40,6 +41,15 @@ const routes = [
         path: "/account/verification",
         name: "AccountVerification",
         component: AccountVerification,
+        meta: {
+            public: false,
+            onlyWhenPending: true
+        }
+    },
+    {
+        path: "/account/verified",
+        name: "AccountVerificationSuccessfull",
+        component: AccountVerificationSuccessfull,
         meta: {
             public: false,
             onlyWhenPending: true
@@ -100,10 +110,7 @@ router.beforeEach((to, from, next) => {
     }
 
     if (!isPublic && !onlyWhenPending && loggedIn && !userActivated) {
-        return next({
-            path: "/account/verification",
-            query: { redirect: to.fullPath }
-        });
+        return next("/account/verification");
     }
 
     if (!isPublic && onlyWhenPending && loggedIn && userActivated) {

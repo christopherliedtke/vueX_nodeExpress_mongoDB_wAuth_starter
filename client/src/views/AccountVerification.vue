@@ -1,14 +1,14 @@
 <template>
-    <div class="dashboard container py-5">
+    <div class="account-verification container py-5">
         <b-overlay :show="showOverlay" variant="transparent" blur="none">
             <h2>Account Verification</h2>
             <p>
                 Please check your email inbox for the activation link. If you do
-                not receive an email, check your spam folder as well.
+                not find the email, check your spam folder as well.
             </p>
             <p>You did not receive an email?</p>
             <button class="btn btn-primary my-3" @click="onSubmit">
-                Send new activation email
+                Send New Activation Email
             </button>
             <div class="error mt-3" v-if="error">
                 <b-alert show dismissible variant="warning"
@@ -36,7 +36,9 @@ export default {
             this.error = false;
             this.success = false;
 
-            const response = await axios.get("/api/auth/get-activation-email");
+            const response = await axios.get(
+                "/api/auth/verification/get-activation-email"
+            );
             this.showOverlay = false;
 
             if (!response.data.success) {

@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import router from "@/router/index";
 import axios from "@/axios";
 export default {
     name: "Logout",
@@ -27,7 +26,7 @@ export default {
             const response = await axios.get("/api/auth/logout");
 
             if (response.data.success) {
-                router.go({ path: "/login" });
+                this.$router.go({ path: "/login" });
             }
         }
     }

@@ -148,8 +148,8 @@ router.post("/register", async (req, res) => {
                     from: `YOUR NAME <${res.locals.secrets.EMAIL_USERNAME}>`,
                     to: user.email,
                     subject: "Your Activation Link for YOUR APP",
-                    text: `Please use the following link within the next 10 minutes to activate your account on YOUR APP: ${baseUrl}/api/auth/verify-account/${user._id}/${secretCode}`,
-                    html: `<p>Please use the following link within the next 10 minutes to activate your account on YOUR APP: <strong><a href="${baseUrl}/api/auth/verify-account/${user._id}/${secretCode}" target="_blank">Email bestätigen</a></strong></p>`,
+                    text: `Please use the following link within the next 10 minutes to activate your account on YOUR APP: ${baseUrl}/api/auth/verification/verify-account/${user._id}/${secretCode}`,
+                    html: `<p>Please use the following link within the next 10 minutes to activate your account on YOUR APP: <strong><a href="${baseUrl}/api/auth/verification/verify-account/${user._id}/${secretCode}" target="_blank">Email bestätigen</a></strong></p>`,
                 };
                 await emailService.sendMail(data);
 
@@ -170,11 +170,11 @@ router.post("/register", async (req, res) => {
     }
 });
 
-// #route:  GET /get-activation-email
+// #route:  GET /verification/get-activation-email
 // #desc:   Send activation email to registered users email address
 // #access: Private
 router.get(
-    "/get-activation-email",
+    "/verification/get-activation-email",
     authenticateTokenWhilePending,
     async (req, res) => {
         const baseUrl = req.protocol + "://" + req.get("host");
@@ -200,8 +200,8 @@ router.get(
                     from: `YOUR NAME <${res.locals.secrets.EMAIL_USERNAME}>`,
                     to: user.email,
                     subject: "Your Activation Link for YOUR APP",
-                    text: `Please use the following link within the next 10 minutes to activate your account on YOUR APP: ${baseUrl}/api/auth/verify-account/${user._id}/${secretCode}`,
-                    html: `<p>Please use the following link within the next 10 minutes to activate your account on YOUR APP: <strong><a href="${baseUrl}/api/auth/verify-account/${user._id}/${secretCode}" target="_blank">Email bestätigen</a></strong></p>`,
+                    text: `Please use the following link within the next 10 minutes to activate your account on YOUR APP: ${baseUrl}/api/auth/verification/verify-account/${user._id}/${secretCode}`,
+                    html: `<p>Please use the following link within the next 10 minutes to activate your account on YOUR APP: <strong><a href="${baseUrl}/api/auth/verification/verify-account/${user._id}/${secretCode}" target="_blank">Email bestätigen</a></strong></p>`,
                 };
                 await emailService.sendMail(data);
 
@@ -214,26 +214,93 @@ router.get(
     }
 );
 
-// #route:  GET /verify-account
-// #desc:   Send activation email to registered users email address
+// #route:  GET /verification/verify-account
+// #desc:   Verify user's email address
 // #access: Public
-router.get("/verify-account/:userId/:secretCode", async (req, res) => {
-    try {
-        const user = await User.findById(req.params.userId);
-        const response = await Code.findOne({
-            email: user.email,
-            code: req.params.secretCode,
-        });
+router.get(
+    "/verification/verify-account/:userId/:secretCode",
+    async (req, res) => {
+        try {
+            const user = await User.findById(req.params.userId);
+            const response = await Code.findOne({
+                email: user.email,
+                code: req.params.secretCode,
+            });
 
-        if (!user || response.length === 0) {
-            res.sendStatus(401);
-        } else {
-            await User.updateOne({ email: user.email }, { status: "active" });
-            await Code.deleteMany({ email: user.email });
-            res.json({ success: true });
+            if (!user) {
+                res.sendStatus(401);
+            } else {
+                await User.updateOne(
+                    { email: user.email },
+                    { status: "active" }
+                );
+                await Code.deleteMany({ email: user.email });
+
+                let redirectPath;
+
+                if (process.env.NODE_ENV == "production") {
+                    redirectPath = `${req.protocol}://${req.get(
+                        "host"
+                    )}account/verified`;
+                } else {
+                    redirectPath = `http://127.0.0.1:8080/account/verified`;
+                }
+
+                res.redirect(redirectPath);
+            }
+        } catch (err) {
+            console.log(
+                "Error on /api/auth/verification/verify-account: ",
+                err
+            );
+            res.sendStatus(500);
         }
-    } catch (err) {}
-});
+    }
+);
+
+// #route:  GET /verification/update-user-status
+// #desc:   Verify user's email address
+// #access: Public
+router.get(
+    "/verification/update-user-status",
+    authenticateTokenWhilePending,
+    async (req, res) => {
+        try {
+            const user = await User.findById(req.userId);
+
+            if (!user) {
+                res.json({ success: false });
+            } else {
+                const token = jwt.sign(
+                    {
+                        userId: user._id,
+                        userRole: user.role,
+                        userStatus: user.status,
+                    },
+                    res.locals.secrets.JWT_SECRET,
+                    {
+                        expiresIn: 60 * 60 * 24 * 14,
+                    }
+                );
+
+                req.session.token = token;
+
+                res.json({
+                    success: true,
+                    userRole: user.role,
+                    userId: user._id,
+                    userStatus: user.status,
+                });
+            }
+        } catch (err) {
+            console.log(
+                "Error on /api/auth/verification/update-user-status: ",
+                err
+            );
+            res.json({ success: false });
+        }
+    }
+);
 
 // #route:  POST /password-reset/get-code
 // #desc:   Reset password of user
