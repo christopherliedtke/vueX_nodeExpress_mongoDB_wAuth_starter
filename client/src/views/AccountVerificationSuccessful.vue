@@ -1,6 +1,6 @@
 <template>
     <div class="account-verification-successful container py-5">
-        <h2>Account Verification Successfull</h2>
+        <h2>Account Verification Successful</h2>
         <div class="success mt-3">
             <b-alert show dismissible variant="success"
                 >Your email has been successfully verified. You will be

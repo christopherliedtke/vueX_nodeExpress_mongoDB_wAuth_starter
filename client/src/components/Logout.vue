@@ -26,7 +26,10 @@ export default {
             const response = await axios.get("/api/auth/logout");
 
             if (response.data.success) {
-                this.$router.go({ path: "/login" });
+                this.$store.commit("setUserId", null);
+                this.$store.commit("setUserRole", null);
+                this.$store.commit("setUserStatus", null);
+                this.$router.push({ path: "/login" });
             }
         }
     }
