@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 
-const authenticateToken = (req, res, next) => {
+const authenticateTokenWhilePending = (req, res, next) => {
     const token = req.session.token;
 
     jwt.verify(token, res.locals.secrets.JWT_SECRET, (err, user) => {
-        if (err || user.userStatus != "active") {
+        if (err) {
             res.sendStatus(401);
         } else {
             req.userId = user.userId;
@@ -16,4 +16,4 @@ const authenticateToken = (req, res, next) => {
     });
 };
 
-module.exports = authenticateToken;
+module.exports = authenticateTokenWhilePending;

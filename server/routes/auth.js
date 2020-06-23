@@ -6,6 +6,7 @@ const { User } = require("../utils/models/user");
 const { Code } = require("../utils/models/pwReset");
 const { hash, compare } = require("../utils/bcrypt");
 const emailService = require("../utils/nodemailer");
+const authenticateTokenWhilePending = require("../utils/middleware/checkAuthWhilePending");
 
 // #route:  POST /Login
 // #desc:   Login a user
@@ -35,6 +36,7 @@ router.post("/login", async (req, res) => {
                         {
                             userId: user._id,
                             userRole: user.role,
+                            userStatus: user.status,
                         },
                         res.locals.secrets.JWT_SECRET,
                         {
@@ -43,7 +45,6 @@ router.post("/login", async (req, res) => {
                     );
 
                     req.session.token = token;
-                    req.session.userId = user._id;
 
                     res.json({
                         success: true,
@@ -123,6 +124,7 @@ router.post("/register", async (req, res) => {
                     {
                         userId: user._id,
                         userRole: user.role,
+                        userStatus: user.status,
                     },
                     res.locals.secrets.JWT_SECRET,
                     {
@@ -131,7 +133,25 @@ router.post("/register", async (req, res) => {
                 );
 
                 req.session.token = token;
-                req.session.userId = user._id;
+
+                const baseUrl = req.protocol + "://" + req.get("host");
+                const secretCode = cryptoRandomString({
+                    length: 6,
+                });
+                const newCode = new Code({
+                    code: secretCode,
+                    email: user.email,
+                });
+                await newCode.save();
+
+                const data = {
+                    from: `YOUR NAME <${res.locals.secrets.EMAIL_USERNAME}>`,
+                    to: user.email,
+                    subject: "Your Activation Link for YOUR APP",
+                    text: `Please use the following link within the next 10 minutes to activate your account on YOUR APP: ${baseUrl}/api/auth/verify-account/${user._id}/${secretCode}`,
+                    html: `<p>Please use the following link within the next 10 minutes to activate your account on YOUR APP: <strong><a href="${baseUrl}/api/auth/verify-account/${user._id}/${secretCode}" target="_blank">Email bestätigen</a></strong></p>`,
+                };
+                await emailService.sendMail(data);
 
                 res.json({
                     success: true,
@@ -148,6 +168,71 @@ router.post("/register", async (req, res) => {
             res.json({ success: false, errors });
         }
     }
+});
+
+// #route:  GET /get-activation-email
+// #desc:   Send activation email to registered users email address
+// #access: Private
+router.get(
+    "/get-activation-email",
+    authenticateTokenWhilePending,
+    async (req, res) => {
+        const baseUrl = req.protocol + "://" + req.get("host");
+
+        try {
+            const user = await User.findById(req.userId);
+
+            if (!user) {
+                res.json({ success: false });
+            } else {
+                await Code.deleteMany({ email: user.email });
+
+                const secretCode = cryptoRandomString({
+                    length: 6,
+                });
+                const newCode = new Code({
+                    code: secretCode,
+                    email: user.email,
+                });
+                await newCode.save();
+
+                const data = {
+                    from: `YOUR NAME <${res.locals.secrets.EMAIL_USERNAME}>`,
+                    to: user.email,
+                    subject: "Your Activation Link for YOUR APP",
+                    text: `Please use the following link within the next 10 minutes to activate your account on YOUR APP: ${baseUrl}/api/auth/verify-account/${user._id}/${secretCode}`,
+                    html: `<p>Please use the following link within the next 10 minutes to activate your account on YOUR APP: <strong><a href="${baseUrl}/api/auth/verify-account/${user._id}/${secretCode}" target="_blank">Email bestätigen</a></strong></p>`,
+                };
+                await emailService.sendMail(data);
+
+                res.json({ success: true });
+            }
+        } catch (err) {
+            console.log("Error on /api/auth/get-activation-email: ", err);
+            res.json({ success: false });
+        }
+    }
+);
+
+// #route:  GET /verify-account
+// #desc:   Send activation email to registered users email address
+// #access: Public
+router.get("/verify-account/:userId/:secretCode", async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+        const response = await Code.findOne({
+            email: user.email,
+            code: req.params.secretCode,
+        });
+
+        if (!user || response.length === 0) {
+            res.sendStatus(401);
+        } else {
+            await User.updateOne({ email: user.email }, { status: "active" });
+            await Code.deleteMany({ email: user.email });
+            res.json({ success: true });
+        }
+    } catch (err) {}
 });
 
 // #route:  POST /password-reset/get-code

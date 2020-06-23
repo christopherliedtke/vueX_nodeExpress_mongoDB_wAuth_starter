@@ -9,6 +9,7 @@ import Account from "@/views/Account.vue";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 import PasswordReset from "@/views/PasswordReset.vue";
+import AccountVerification from "@/views/AccountVerification.vue";
 
 const routes = [
     {
@@ -33,6 +34,15 @@ const routes = [
         component: Account,
         meta: {
             public: false
+        }
+    },
+    {
+        path: "/account/verification",
+        name: "AccountVerification",
+        component: AccountVerification,
+        meta: {
+            public: false,
+            onlyWhenPending: true
         }
     },
     {
@@ -75,14 +85,29 @@ router.beforeEach((to, from, next) => {
     const onlyWhenLoggedOut = to.matched.some(
         record => record.meta.onlyWhenLoggedOut
     );
+    const onlyWhenPending = to.matched.some(
+        record => record.meta.onlyWhenPending
+    );
 
-    const loggedIn = !!store.getters.userRole;
+    const loggedIn = !!store.getters.userId;
+    const userActivated = localStorage.getItem("userStatus") != "pending";
 
     if (!isPublic && !loggedIn) {
         return next({
             path: "/login",
             query: { redirect: to.fullPath }
         });
+    }
+
+    if (!isPublic && !onlyWhenPending && loggedIn && !userActivated) {
+        return next({
+            path: "/account/verification",
+            query: { redirect: to.fullPath }
+        });
+    }
+
+    if (!isPublic && onlyWhenPending && loggedIn && userActivated) {
+        return next("/dashboard");
     }
 
     if (loggedIn && onlyWhenLoggedOut) {

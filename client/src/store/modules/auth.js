@@ -20,16 +20,19 @@ const actions = {
         if (response.data.success) {
             localStorage.setItem("userId", response.data.userId);
             localStorage.setItem("userRole", response.data.userRole);
+            localStorage.setItem("userStatus", response.data.userStatus);
             commit("setUserId", response.data.userId);
             commit("setUserRole", response.data.userRole);
             commit("setUserStatus", response.data.userStatus);
 
             // Manage redirect after auth
             const redirectQuery = router.history.current.query.redirect;
-            let redirectPath =
-                data.url === "/api/auth/register" ? "/account" : "/dashboard";
+            let redirectPath = "/dashboard";
 
-            router.push({ path: redirectQuery || redirectPath });
+            // catch undefined error -> no harm, no display
+            router
+                .push({ path: redirectQuery || redirectPath })
+                .catch(err => err);
 
             return { sucess: true };
         } else {

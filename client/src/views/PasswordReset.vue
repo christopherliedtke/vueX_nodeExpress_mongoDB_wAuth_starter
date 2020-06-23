@@ -23,7 +23,7 @@
             </b-form>
             <b-form v-if="state === 1">
                 <p class="mt-4">
-                    Please check your email mailbox for the code to enter.
+                    Please check your email inbox for the code to enter.
                 </p>
                 <label for="secretCode">Code</label>
                 <b-form-input
