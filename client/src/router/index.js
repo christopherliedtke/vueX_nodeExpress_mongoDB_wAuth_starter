@@ -10,7 +10,7 @@ import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 import PasswordReset from "@/views/PasswordReset.vue";
 import AccountVerification from "@/views/AccountVerification.vue";
-import AccountVerificationSuccessfull from "@/views/AccountVerificationSuccessfull.vue";
+import AccountVerificationSuccessful from "@/views/AccountVerificationSuccessful.vue";
 
 const routes = [
     {
@@ -48,8 +48,8 @@ const routes = [
     },
     {
         path: "/account/verified",
-        name: "AccountVerificationSuccessfull",
-        component: AccountVerificationSuccessfull,
+        name: "AccountVerificationSuccessful",
+        component: AccountVerificationSuccessful,
         meta: {
             public: false,
             onlyWhenPending: true

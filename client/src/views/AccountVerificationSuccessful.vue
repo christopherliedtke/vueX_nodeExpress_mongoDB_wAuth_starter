@@ -1,5 +1,5 @@
 <template>
-    <div class="account-verification-successfull container py-5">
+    <div class="account-verification-successful container py-5">
         <h2>Account Verification Successfull</h2>
         <div class="success mt-3">
             <b-alert show dismissible variant="success"
@@ -18,7 +18,7 @@
 <script>
 import axios from "@/axios";
 export default {
-    name: "AccountVerificationSuccessfull",
+    name: "AccountVerificationSuccessful",
     methods: {
         async updateUserStatus() {
             const response = await axios.get(
