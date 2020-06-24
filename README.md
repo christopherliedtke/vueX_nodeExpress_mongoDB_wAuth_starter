@@ -1,6 +1,6 @@
 # Starter Repository - Vue with VueX, Bootstrap, Node.js/Express, mongoDB with Authentication and Email Verification
 
-> A starter repository for a front-end Vue.js SPA with a Node.js/Express and mongoDB back-end incl. pre-defined **authentication** and **email verification** functionality.
+> A starter repository for a front-end Vue.js SPA with a Node.js/Express and mongoDB back-end incl. pre-defined **authentication**, **email verification** and **delete account** functionality.
 
 ## Features
 
@@ -8,6 +8,7 @@
 -   Email verification
 -   Login
 -   Password reset
+-   Delete Account
 
 ## Front-End
 
@@ -29,6 +30,7 @@ and the following components:
 -   Header
 -   Footer
 -   Logout
+-   Delete Account Button
 
 The user id, user role and user status are stored in `localStorage` to be used session persistent on the client side.
 
@@ -39,7 +41,7 @@ On the back-end a Node.js/Express server is set up. mongoDB serves as the databa
 -   "/api/jobs" -> serves hard coded json-data [public]
 -   "/" -> serves basic json; not requested on front-end [public]
 -   "/user/data" -> serves hard-coded json-data [private]
--   "/api/auth/..." -> handles user registration [public], login [public], password reset [public], logout [public], account verification [private]
+-   "/api/auth/..." -> handles user registration [public], login [public], password reset [public], logout [public], account verification [private], account deletion [private]
 
 Private routes are protected through 'check authentication' middleware.
 

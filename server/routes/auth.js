@@ -7,6 +7,7 @@ const { Code } = require("../utils/models/secretCode");
 const { hash, compare } = require("../utils/bcrypt");
 const emailService = require("../utils/nodemailer");
 const authenticateTokenWhilePending = require("../utils/middleware/checkAuthWhilePending");
+const authenticateToken = require("../utils/middleware/checkAuth");
 
 // #route:  POST /Login
 // #desc:   Login a user
@@ -403,12 +404,64 @@ router.post("/password-reset/verify", async (req, res) => {
     }
 });
 
-// #route:  POST /logout
+// #route:  GET /logout
 // #desc:   Logout a user
 // #access: Public
 router.get("/logout", (req, res) => {
     req.session = null;
     res.json({ success: true });
+});
+
+// #route:  POST /delete-account
+// #desc:   Logout a user
+// #access: Public
+router.post("/delete-account", authenticateToken, async (req, res) => {
+    const { password } = req.body;
+
+    if (!password) {
+        res.json({ success: false, error: "Please provide your password." });
+    } else {
+        try {
+            const user = await User.findById(req.userId);
+
+            if (!user) {
+                res.json({
+                    success: false,
+                    error: "Oh, something went wrong. Please try again!",
+                });
+            } else {
+                const pwCheckSuccess = await compare(password, user.password);
+
+                if (!pwCheckSuccess) {
+                    res.json({
+                        success: false,
+                        error: "The provided password is not correct.",
+                    });
+                } else {
+                    const deleted = await User.deleteOne({
+                        email: user.email,
+                    });
+
+                    if (!deleted) {
+                        res.json({
+                            success: false,
+                            error:
+                                "Oh, something went wrong. Please try again!",
+                        });
+                    } else {
+                        req.session = null;
+                        res.json({ success: true });
+                    }
+                }
+            }
+        } catch (err) {
+            console.log("Error on /api/auth/delete-account: ", err);
+            res.json({
+                success: false,
+                error: "Oh, something went wrong. Please try again!",
+            });
+        }
+    }
 });
 
 module.exports = router;

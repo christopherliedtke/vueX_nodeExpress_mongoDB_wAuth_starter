@@ -1,5 +1,5 @@
 <template>
-    <header class="py-2">
+    <header class="py-2" id="header">
         <b-navbar toggleable="lg" type="dark">
             <b-navbar-brand to="/">
                 <!-- <img src="../assets/logo.png" height="70" alt="" /> -->
@@ -18,9 +18,16 @@
                     <b-nav-item to="/dashboard" v-if="userId"
                         >Dashboard</b-nav-item
                     >
-                    <b-nav-item to="/account" v-if="userId">Account</b-nav-item>
-                    <!-- <b-nav-item v-if="userId"><Logout /></b-nav-item> -->
-                    <Logout v-if="userId" />
+                    <b-nav-item to="/account" v-if="userId"
+                        ><b-icon
+                            class="mr-1"
+                            icon="person-circle"
+                            font-scale="1.4"
+                        ></b-icon
+                        >Account</b-nav-item
+                    >
+                    <b-nav-item v-if="userId"><Logout /></b-nav-item>
+                    <!-- <Logout v-if="userId" /> -->
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>

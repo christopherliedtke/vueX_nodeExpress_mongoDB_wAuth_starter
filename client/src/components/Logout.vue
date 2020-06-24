@@ -1,19 +1,24 @@
 <template>
-    <b-button
+    <!-- <b-button
         class="px-2 align-self-start align-self-lg-center d-flex align-items-center"
         size="sm"
         variant="secondary"
         type="submit"
         @click="onLogout"
-        ><b-icon
-            class="mr-1"
-            icon="door-closed"
-            font-scale="1"
-            @click="onLogout"
-        ></b-icon
-        >Logout</b-button
-    >
-    <!-- <b-icon icon="door-closed" font-scale="1.2" @click="onLogout"></b-icon> -->
+        > -->
+    <!-- <b-icon
+        class="mr-1"
+        icon="box-arrow-right"
+        font-scale="1.5"
+        @click="onLogout"
+    ></b-icon> -->
+    <!-- Logout</b-button
+    > -->
+    <!-- <div
+        class="align-self-start align-self-lg-center d-flex align-items-center"
+    > -->
+    <b-icon icon="box-arrow-right" font-scale="1.4" @click="onLogout"></b-icon>
+    <!-- </div> -->
 </template>
 
 <script>
@@ -36,4 +41,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped lang="scss"></style>
