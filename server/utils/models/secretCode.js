@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const pwResetSchema = new Schema({
+const secretCode = new Schema({
     email: {
         type: String,
         required: true,
@@ -17,4 +17,4 @@ const pwResetSchema = new Schema({
     },
 });
 
-module.exports.Code = mongoose.model("code", pwResetSchema);
+module.exports.Code = mongoose.model("code", secretCode);
