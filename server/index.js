@@ -57,7 +57,7 @@ app.use("/api/user", require("./routes/user"));
 app.use("/api/jobs", require("./routes/jobs"));
 app.use("/", require("./routes/index"));
 
-// Serve the built static files in production
+// Serve the build in production
 app.get("*", (req, res) => res.sendFile(__dirname + "/public/index.html"));
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));
