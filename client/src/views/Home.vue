@@ -20,7 +20,16 @@ export default {
         return {};
     },
     mounted: function() {
-        this.getJobs();
+        this.getJobs({
+            query: `
+                query {
+                    jobs {
+                        id
+                        title
+                    }
+                }
+            `
+        });
     },
     computed: mapGetters(["jobs"])
 };

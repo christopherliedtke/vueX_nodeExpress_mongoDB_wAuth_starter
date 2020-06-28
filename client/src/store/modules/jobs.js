@@ -10,8 +10,10 @@ const getters = {
 
 const actions = {
     async getJobs({ commit }, data) {
-        const response = await axios.get("/api/jobs", data);
-        commit("setJobs", response.data.jobs);
+        const response = await axios.post("/api/jobs/all", data);
+        console.log("response: ", response);
+
+        commit("setJobs", response.data.data.jobs);
     }
 };
 
